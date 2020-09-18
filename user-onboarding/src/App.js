@@ -29,13 +29,11 @@ function App() {
 	const [errorValues, setErrorValues] = useState(initialValues);
 	const [disabled, setDisabled] = useState(true);
 
-	console.log(users);
-
 	const getUsers = () => {
 		axios
 			.get(`https://reqres.in/api/users`)
 			.then((res) => {
-				console.log(res.data.data);
+				// console.log(res.data.data);
 				setUsers(res.data.data);
 			})
 			.catch((error) => console.log(error));
@@ -45,7 +43,7 @@ function App() {
 		axios
 			.post(`https://reqres.in/api/users`, newUser)
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				setUsers([...users, res.data]);
 				setFormValues(initialValues);
 			})
@@ -53,16 +51,19 @@ function App() {
 	};
 
 	// Form Validation
+	// Validating specific key/value pairs
 	const validate = (name, value) => {
 		yup
 			.reach(FormSchema, name)
 			.validate(value)
+			// If no errors, set error values to nothing
 			.then((valid) => {
 				setErrorValues({
 					...errorValues,
 					[name]: "",
 				});
 			})
+			// If errors, set errors to their values
 			.catch((err) => {
 				setErrorValues({
 					...errorValues,
